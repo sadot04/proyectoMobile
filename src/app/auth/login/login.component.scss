@@ -1,0 +1,69 @@
+/* filepath: d:\2025_\ProgMov\proyecto\proyecto1\src\app\auth\login\login.component.scss */
+ion-header {
+  ion-toolbar {
+    --background: #007bff; /* Color azul */
+    --color: #fff; /* Texto blanco */
+  }
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+
+.input-item {
+  width: 90%;
+  margin-bottom: 15px;
+  --background: #f9f9f9; /* Fondo claro */
+  --border-radius: 8px;
+  --padding-start: 15px;
+}
+
+ion-input {
+  font-size: 16px;
+}
+
+.login-button {
+  width: 90%;
+  height: 50px;
+  --background: #007bff; /* Color azul */
+  --border-radius: 8px;
+  font-size: 18px;
+  font-weight: bold;
+  text-transform: none;
+}
+.register-link {
+  text-align: center;
+  font-size: 16px;  /* filepath: d:\2025_\ProgMov\proyecto\proyecto1\src\app\auth\login\login.component.scss */
+  ion-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%; /* Asegura que ocupe toda la pantalla */
+  }
+  
+  .login-form {
+    width: 100%;
+    max-width: 400px; /* Limita el ancho del formulario */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  font-weight: bold;
+  color: #007bff; /* Color azul */
+  margin-top: 20px;
+}
+
+.login-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 18px; /* Tamaño de fuente más grande */
+  font-weight: bold; /* Texto en negrita */
+  text-align: center; /* Centrar el texto */
+  height: 50px; /* Altura del botón */
+}

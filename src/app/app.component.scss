@@ -1,0 +1,13 @@
+ion-tab-bar {
+    --background: #000; /* Fondo negro */
+    --color: #aaa; /* Color de texto e íconos por defecto */
+    --color-selected: #007bff; /* Color de texto e íconos seleccionados */
+  }
+  
+  ion-tab-button {
+    font-size: 0.9rem; /* Tamaño del texto */
+  }
+  
+  ion-tab-button ion-icon {
+    font-size: 1.5rem; /* Tamaño de los íconos */
+  }

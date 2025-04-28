@@ -1,0 +1,16 @@
+<ion-header>
+    <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+    <ion-back-button defaultHref="/main"></ion-back-button>
+  </ion-buttons>
+      <ion-title>🐾 Reportar Celo</ion-title>
+    </ion-toolbar>
+  </ion-header>
+  <ion-content class="ion-padding">
+    <form [formGroup]="form" (ngSubmit)="submit()">
+      <ion-input formControlName="descripcion" label="Descripción" labelPlacement="floating"></ion-input>
+      <ion-input formControlName="ubicacion" label="Ubicación" labelPlacement="floating"></ion-input>
+      <ion-input formControlName="fecha" label="Fecha" type="date"></ion-input>
+      <ion-button type="submit" expand="block" [disabled]="form.invalid">Enviar reporte</ion-button>
+    </form>
+  </ion-content>

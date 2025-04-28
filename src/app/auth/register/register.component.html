@@ -9,6 +9,40 @@
 
 <ion-content class="ion-padding">
   <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+    <!-- Campo Nombre -->
+    <ion-item>
+      <ion-label position="floating">Nombre</ion-label>
+      <ion-input type="text" formControlName="nombre"></ion-input>
+    </ion-item>
+    <div *ngIf="registerForm.get('nombre')?.touched && registerForm.get('nombre')?.errors?.['required']">
+      <ion-text color="danger">Nombre es requerido</ion-text>
+    </div>
+
+    <!-- Campo Edad -->
+    <ion-item>
+      <ion-label position="floating">Edad</ion-label>
+      <ion-input type="number" formControlName="edad"></ion-input>
+    </ion-item>
+    <div *ngIf="registerForm.get('edad')?.touched && registerForm.get('edad')?.errors?.['required']">
+      <ion-text color="danger">Edad es requerida</ion-text>
+    </div>
+    <div *ngIf="registerForm.get('edad')?.touched && registerForm.get('edad')?.errors?.['min']">
+      <ion-text color="danger">Edad debe ser mayor a 0</ion-text>
+    </div>
+
+    <!-- Campo Celular -->
+    <ion-item>
+      <ion-label position="floating">Celular</ion-label>
+      <ion-input type="tel" formControlName="celular"></ion-input>
+    </ion-item>
+    <div *ngIf="registerForm.get('celular')?.touched && registerForm.get('celular')?.errors?.['required']">
+      <ion-text color="danger">Celular es requerido</ion-text>
+    </div>
+    <div *ngIf="registerForm.get('celular')?.touched && registerForm.get('celular')?.errors?.['pattern']">
+      <ion-text color="danger">Celular debe tener 10 dígitos</ion-text>
+    </div>
+
+    <!-- Campo Email -->
     <ion-item>
       <ion-label position="floating">Email</ion-label>
       <ion-input type="email" formControlName="email"></ion-input>
@@ -20,6 +54,7 @@
       <ion-text color="danger">Email no válido</ion-text>
     </div>
 
+    <!-- Campo Password -->
     <ion-item>
       <ion-label position="floating">Password</ion-label>
       <ion-input type="password" formControlName="password"></ion-input>
@@ -31,6 +66,7 @@
       <ion-text color="danger">Password debe tener al menos 6 caracteres</ion-text>
     </div>
 
+    <!-- Campo Confirmar Password -->
     <ion-item>
       <ion-label position="floating">Confirmar Password</ion-label>
       <ion-input type="password" formControlName="confirmPassword"></ion-input>
@@ -39,15 +75,18 @@
       <ion-text color="danger">Los passwords no coinciden</ion-text>
     </div>
 
+    <!-- Botón de Registro -->
     <ion-button expand="block" type="submit" [disabled]="!registerForm.valid || loading">
       <ion-spinner name="crescent" *ngIf="loading"></ion-spinner>
       <span *ngIf="!loading">Registrarse</span>
     </ion-button>
 
+    <!-- Mensaje de Error -->
     <ion-text color="danger" *ngIf="errorMessage">
       {{ errorMessage }}
     </ion-text>
-    
+
+    <!-- Enlace a Login -->
     <ion-button expand="block" fill="clear" routerLink="/login">
       ¿Ya tienes cuenta? Inicia sesión
     </ion-button>

@@ -1,0 +1,27 @@
+ion-tab-bar {
+    display: flex;
+    justify-content: center; /* Centra horizontalmente los botones */
+/*    --background: #f8f9fa; /* Fondo claro */
+/*    --color: #6c757d; /* Color de texto e íconos por defecto */
+/*    --color-selected: #007bff; /* Color de texto e íconos seleccionados */
+  }
+  
+  ion-tab-button {
+    flex: 1; /* Asegura que los botones tengan el mismo tamaño */
+    text-align: center; /* Centra el contenido dentro de cada botón */
+  }
+  
+  ion-tab-button ion-icon {
+    font-size: 1.8rem; /* Tamaño de los íconos */
+    display: block; /* Asegura que los íconos sean visibles */
+    margin: auto; /* Centra los íconos horizontal y verticalmente */
+  }
+  
+  ion-tab-button ion-label {
+    font-size: 0.9rem; /* Tamaño del texto */
+    margin-top: 4px; /* Espaciado entre el ícono y el texto */
+  }
+
+  ion-tab-button ion-icon[name="home"] {
+    --color: #002fff; /* Azul personalizado */
+  }

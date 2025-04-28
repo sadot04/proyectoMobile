@@ -1,26 +1,31 @@
 import { Component, inject } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, AbstractControl, ValidationErrors } from '@angular/forms';
+import { FormBuilder, Validators, AbstractControl, ValidationErrors, ReactiveFormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { CommonModule } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
+import { Firestore, collection, addDoc } from '@angular/fire/firestore';
 
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.scss'],
   standalone: true,
-  imports: [IonicModule, CommonModule, ReactiveFormsModule,RouterLink]
+  imports: [IonicModule, CommonModule, ReactiveFormsModule, RouterLink]
 })
 export class RegisterComponent {
   private authService = inject(AuthService);
   private router = inject(Router);
   private fb = inject(FormBuilder);
-  
+  private firestore = inject(Firestore); // Inyecta Firestore
+
   registerForm = this.fb.group({
     email: ['', [Validators.required, Validators.email]],
     password: ['', [Validators.required, Validators.minLength(6)]],
-    confirmPassword: ['', [Validators.required]]
+    confirmPassword: ['', [Validators.required]],
+    nombre: ['', [Validators.required]],
+    edad: ['', [Validators.required, Validators.min(1)]],
+    celular: ['', [Validators.required]]
   }, {
     updateOn: 'blur',
     validators: [this.createPasswordMatchValidator()]
@@ -44,13 +49,18 @@ export class RegisterComponent {
     if (this.registerForm.valid) {
       this.loading = true;
       this.errorMessage = '';
-      
-      const { email, password } = this.registerForm.value;
-      
-      if (email && password) { // Type guard
+
+      const { email, password, nombre, edad, celular } = this.registerForm.value;
+
+      if (email && password && nombre && edad && celular) { // Type guard
         this.authService.register(email, password).subscribe({
-          next: (response) => {
+          next: async (response) => {
             console.log('Registro exitoso:', response);
+
+            // Guarda los datos adicionales en Firestore
+            const userCollection = collection(this.firestore, 'usuarios');
+            await addDoc(userCollection, { email, nombre, edad, celular });
+
             this.router.navigate(['/login']);
           },
           error: (error) => {

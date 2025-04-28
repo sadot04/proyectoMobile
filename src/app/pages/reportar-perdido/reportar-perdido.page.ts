@@ -1,29 +1,19 @@
-
 import { Component } from '@angular/core';
 import { IonicModule } from '@ionic/angular';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 import { RouterModule } from '@angular/router';
+import { Firestore, collection, addDoc, query, where, getDocs } from '@angular/fire/firestore';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-reportar-perdido',
   standalone: true,
+  templateUrl: './reportar-perdido.html',
+  styleUrls: ['./reportar-perdido.scss'],
+  
   imports: [IonicModule, CommonModule, ReactiveFormsModule, RouterModule],
-  template: `
-  <ion-header>
-    <ion-toolbar color="primary">
-      <ion-title>🐶 Perrito Perdido</ion-title>
-    </ion-toolbar>
-  </ion-header>
-  <ion-content class="ion-padding">
-    <form [formGroup]="form" (ngSubmit)="submit()">
-      <ion-input formControlName="descripcion" label="Descripción" labelPlacement="floating"></ion-input>
-      <ion-input formControlName="ubicacion" label="Ubicación" labelPlacement="floating"></ion-input>
-      <ion-input formControlName="fecha" label="Fecha" type="date"></ion-input>
-      <ion-button type="submit" expand="block" [disabled]="form.invalid">Enviar reporte</ion-button>
-    </form>
-  </ion-content>
-  `
+
 })
 export default class ReportarperdidoPage {
   form = this.fb.group({
@@ -32,9 +22,49 @@ export default class ReportarperdidoPage {
     fecha: ['', Validators.required]
   });
 
-  constructor(private fb: FormBuilder) {}
+  constructor(
+    private fb: FormBuilder,
+    private firestore: Firestore,
+    private authService: AuthService
+  ) {}
 
-  submit() {
-    console.log("Reporte enviado:", this.form.value);
+  async submit() {
+    if (this.form.valid) {
+      const reportData = this.form.value;
+
+      try {
+        const currentUser = await this.authService.getCurrentUser();
+        if (currentUser) {
+          const userEmail = currentUser.email;
+
+          const userCollection = collection(this.firestore, 'usuarios');
+          const userQuery = query(userCollection, where('email', '==', userEmail));
+          const querySnapshot = await getDocs(userQuery);
+
+          if (!querySnapshot.empty) {
+            const userDoc = querySnapshot.docs[0];
+            const userData = userDoc.data();
+
+            const fullReportData = {
+              ...reportData,
+              email: userEmail,
+              nombre: userData['nombre'],
+              celular: userData['celular']
+            };
+
+            const reportCollection = collection(this.firestore, 'reportes-perdido');
+            await addDoc(reportCollection, fullReportData);
+
+            console.log('Reporte enviado exitosamente:', fullReportData);
+          } else {
+            console.error('No se encontraron datos del usuario en Firestore.');
+          }
+        } else {
+          console.error('No se pudo obtener el usuario autenticado.');
+        }
+      } catch (error) {
+        console.error('Error al enviar el reporte:', error);
+      }
+    }
   }
 }
